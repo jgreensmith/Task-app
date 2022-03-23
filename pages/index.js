@@ -1,5 +1,5 @@
 import { ExpandMore } from "@mui/icons-material";
-import clientPromise from '../lib/mongodb'
+import clientPromise from '../lib/dbConnect'
 
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Container, IconButton, Stack, toolbarClasses, Typography } from "@mui/material";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';

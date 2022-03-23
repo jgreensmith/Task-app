@@ -19,7 +19,15 @@ const postSchema = new mongoose.Schema({
     deadline: {
         date: {type: Date},
         time: {type: Number}
-    }
+    },
+    department: {
+        type: String,
+        enum: {
+            values: ['Accounting', 'Sales', 'Customer Service', 'Reception', 'Warehouse', 'Quality Assurance'],
+            message: '{VALUE} is not an department'
+        }
+    },
+    comments: [{ body: String, date: Date }],
 
 
 
