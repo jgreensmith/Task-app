@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const postSchema = new mongoose.Schema({
+const ProjectSchema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, 'Please add a title'],
@@ -29,7 +29,6 @@ const postSchema = new mongoose.Schema({
     },
     comments: [{ body: String, date: Date }],
 
-
-
-
 })
+
+export default mongoose.models.Project || mongoose.model('Project', ProjectSchema)
