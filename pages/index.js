@@ -1,5 +1,6 @@
 import { ExpandMore } from "@mui/icons-material";
-import clientPromise from '../lib/dbConnect'
+import dbConnect from "../lib/dbConnect";
+import Project from "../models/Project";
 
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Container, IconButton, Stack, toolbarClasses, Typography } from "@mui/material";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
@@ -9,15 +10,18 @@ import TimerIcon from '@mui/icons-material/Timer';
 import GroupIcon from '@mui/icons-material/Group';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import CommentIcon from '@mui/icons-material/Comment';
+import Form from "../components/Form";
 
-const images = [];
 
 
-export default function Home({ isConnected }) {
-  console.log(isConnected)
+export default function Home({ projects }) {
+  console.log(projects)
+
+
   return (
     <Layout>
       <Container maxWidth="sm">
+        <Form />
         <Stack spacing={2}>
           <Card>
               <CardHeader
@@ -83,23 +87,17 @@ export default function Home({ isConnected }) {
     </Layout>
   )
 }
+export async function getServerSideProps() {
+  await dbConnect()
 
+  /* find all the data in our database */
+  const result = await Project.find({})
+  const projects = result.map((doc) => {
+    const project = doc.toObject()
+    project._id = project._id.toString()
+    return project
+  })
 
- export async function getServerSideProps(context) {
-  try {
-    // client.db() will be the default database passed in the MONGODB_URI
-    // You can change the database by calling the client.db() function and specifying a database like:
-    // const db = client.db("myDatabase");
-    // Then you can execute queries against your database like so:
-    // db.find({}) or any of the MongoDB Node Driver commands
-    await clientPromise
-    return {
-      props: { isConnected: true },
-    }
-  } catch (e) {
-    console.error(e)
-    return {
-      props: { isConnected: false },
-    }
-  }
+  return { props: { projects: projects } }
 }
+
