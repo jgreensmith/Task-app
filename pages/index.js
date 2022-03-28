@@ -6,18 +6,19 @@ import Layout from "../components/Layout";
 
 import Form from "../components/Form";
 import ProjectCard from "../components/ProjectCard";
+import { useState } from "react";
 
 
 
 export default function Home({ projects }) {
-  console.log(projects)
+  const [currentId, setCurrentId] = useState(null)
 
 
   return (
     <Layout>
       <Container maxWidth="sm">
-        <Form />
-        <ProjectCard projects={projects} />
+        <Form currentId={currentId} setCurrentId={setCurrentId} />
+        <ProjectCard projects={projects} setCurrentId={setCurrentId} />
       </Container>
     </Layout>
   )

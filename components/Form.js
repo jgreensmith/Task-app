@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Button, FormControl, InputLabel, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 
 
-export default function Form() {
+export default function Form({ currentId, setCurrentId }) {
     const router = useRouter()
     const contentType = 'application/json'
     const [message, setMessage] = useState('')

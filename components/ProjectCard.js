@@ -7,11 +7,13 @@ import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import CommentIcon from '@mui/icons-material/Comment';
 import { ExpandMore } from "@mui/icons-material";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 
-export default function ProjectCard({projects}) {
+export default function ProjectCard({projects, setCurrentId}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [message, setMessage] = useState('')
+  const router = useRouter()
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,12 +22,14 @@ export default function ProjectCard({projects}) {
     setAnchorEl(null);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
     setAnchorEl(null);
     try {
       await fetch('api/projects', {
-        method: 'Delete'
+        method: 'DELETE',
+        body: id
       })
+      router.push('/')
     } catch (error) {
       setMessage('Failed to delete the pet.')
     }
@@ -34,8 +38,8 @@ export default function ProjectCard({projects}) {
     return(
         <Stack spacing={2}>
           {
-            projects.map((project, index) => (
-              <Card key={index}>
+            projects.map((project) => (
+              <Card key={project._id}>
                 <CardHeader
                   avatar={
                     <Avatar  aria-label="recipe">
@@ -78,7 +82,7 @@ export default function ProjectCard({projects}) {
                       }}
                     >
                       <MenuItem onClick={handleClose}>Edit Project</MenuItem>
-                      <MenuItem onClick={handleDelete}>Delete Project</MenuItem>
+                      <MenuItem onClick={() => handleDelete(project._id)}>Delete Project</MenuItem>
                       <MenuItem onClick={handleClose}>Save Project</MenuItem>
                     </Menu>
                     </>
