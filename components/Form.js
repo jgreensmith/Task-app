@@ -15,7 +15,7 @@ export default function Form() {
         pals: 0
     })
 
-
+// add a project to the data base
     const postData = async (form) => {
         try {
             const res = await fetch('api/projects', {
@@ -31,7 +31,7 @@ export default function Form() {
             }
             router.push('/')
         } catch (error) {
-            setMessage('Failed to add pet')
+            setMessage('Failed to post Project')
         }
     }
 

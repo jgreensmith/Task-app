@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Stack, toolbarClasses, Typography } from "@mui/material";
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Menu, MenuItem, Stack, toolbarClasses, Typography } from "@mui/material";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import TimerIcon from '@mui/icons-material/Timer';
@@ -6,9 +6,31 @@ import GroupIcon from '@mui/icons-material/Group';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import CommentIcon from '@mui/icons-material/Comment';
 import { ExpandMore } from "@mui/icons-material";
+import { useState } from "react";
 
 
 export default function ProjectCard({projects}) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [message, setMessage] = useState('')
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDelete = async () => {
+    setAnchorEl(null);
+    try {
+      await fetch('api/projects', {
+        method: 'Delete'
+      })
+    } catch (error) {
+      setMessage('Failed to delete the pet.')
+    }
+  }
+
     return(
         <Stack spacing={2}>
           {
@@ -36,9 +58,29 @@ export default function ProjectCard({projects}) {
                       <TimerIcon />
                     </Tooltip>
                     
-                    <IconButton aria-label="settings">
+                    <IconButton
+                      aria-label="settings"
+                      id="basic-button"
+                      aria-controls={open ? 'basic-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? 'true' : undefined}
+                      onClick={handleClick}
+                     >
                       <MoreVertIcon />
                     </IconButton>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                      }}
+                    >
+                      <MenuItem onClick={handleClose}>Edit Project</MenuItem>
+                      <MenuItem onClick={handleDelete}>Delete Project</MenuItem>
+                      <MenuItem onClick={handleClose}>Save Project</MenuItem>
+                    </Menu>
                     </>
                     
                   }
@@ -69,6 +111,7 @@ export default function ProjectCard({projects}) {
                 <CommentIcon />Comment
               </Button>
             </CardActions>
+            {message && <p>{message}</p>}
       
       </Card>
             ))
