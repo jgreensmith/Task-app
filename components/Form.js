@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Button, FormControl, InputLabel, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 
 
-export default function Form({ currentId, setCurrentId }) {
+export default function Form() {
     const router = useRouter()
     const contentType = 'application/json'
     const [message, setMessage] = useState('')
@@ -18,7 +18,7 @@ export default function Form({ currentId, setCurrentId }) {
 // add a project to the data base
     const postData = async (form) => {
         try {
-            const res = await fetch('api/projects', {
+            const res = await fetch('/api/projects', {
                 method: 'POST',
                 headers: {
                     Accept: contentType,
