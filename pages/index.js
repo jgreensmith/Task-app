@@ -16,16 +16,6 @@ export default function Home() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  
-  const fetchProjects = async () => {
-    const res = await fetch('/api/projects')
-    const data = await res.json()
-    setProjects(data)
-  }
-  useEffect(() => {
-    fetchProjects()
-  }, [])
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -64,17 +54,17 @@ export default function Home() {
     </Layout>
   )
 }
-// export async function getServerSideProps() {
-//   await dbConnect()
+export async function getServerSideProps() {
+  await dbConnect()
 
-//   /* find all the data in our database */
-//   const result = await Project.find({})
-//   const projects = result.map((doc) => {
-//     const project = doc.toObject()
-//     project._id = project._id.toString()
-//     return project
-//   })
+  /* find all the data in our database */
+  const result = await Project.find({})
+  const projects = result.map((doc) => {
+    const project = doc.toObject()
+    project._id = project._id.toString()
+    return project
+  })
 
-//   return { props: { projects: projects } }
-// }
+  return { props: { projects: projects } }
+}
 

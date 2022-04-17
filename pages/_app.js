@@ -5,7 +5,6 @@ import Router from 'next/router';
 import 'nprogress/nprogress.css';
 
 import { useEffect } from 'react';
-import ProjectContextProvider from '../contexts/ProjectContext';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -20,9 +19,9 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
   return (
-    <ProjectContextProvider>
+  
       <Component {...pageProps} />
-    </ProjectContextProvider>
+    
   );
 }
 
